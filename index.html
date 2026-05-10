@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced E-Commerce Quiz - Full Test Bank</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #000; color: #fff; scroll-behavior: smooth; }
+        .option-btn { transition: all 0.2s ease-in-out; }
+        .correct-choice { border-color: #10b981 !important; background-color: rgba(16, 185, 129, 0.2) !important; color: #10b981 !important; }
+        .wrong-choice { border-color: #ef4444 !important; background-color: rgba(239, 68, 68, 0.2) !important; color: #ef4444 !important; }
+    </style>
+</head>
+<body class="flex items-center justify-center min-h-screen p-4">
+
+    <!-- Chapter Selection Screen -->
+    <div id="chapter-selector" class="w-full max-w-4xl bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8 shadow-2xl">
+        <div class="text-center mb-8">
+            <h1 class="text-4xl font-black mb-2">اختر الفصل</h1>
+            <p class="text-zinc-400">Select Chapter (1-14)</p>
+        </div>
+        <p class="text-center mb-4 text-zinc-400">يارب الزمالك ياخد الدوري و الكونفدرالية</p>
+        <div id="chapters-grid" class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <!-- سيتم ملء الفصول برمجياً -->
+        </div>
+    </div>
+
+    <!-- Quiz Container -->
+    <div id="quiz-container" class="w-full max-w-2xl bg-zinc-900 border border-zinc-800 rounded-2xl p-6 md:p-8 shadow-2xl hidden">
+        <div class="mb-4 text-right">
+            <button id="back-to-chapters-quiz" class="px-4 py-2 bg-zinc-700 hover:bg-zinc-600 text-zinc-300 rounded-lg text-sm">Back to Chapters</button>
+        </div>
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex flex-col">
+                <span id="progress" class="text-xs text-zinc-500 font-bold tracking-widest uppercase">Question 1 / 118</span>
+                <span id="score-count" class="text-sm text-zinc-300">Score: 0</span>
+            </div>
+            <span id="question-type" class="px-3 py-1 bg-zinc-800 border border-zinc-700 rounded-full text-[10px] font-bold tracking-tighter text-zinc-400 uppercase tracking-widest">MCQ</span>
+        </div>
+
+        <div class="mb-8">
+            <h2 id="question-text" class="text-xl md:text-2xl font-bold leading-tight">Loading questions...</h2>
+        </div>
+
+        <div id="options-grid" class="grid gap-3"></div>
+
+        <div id="action-area" class="mt-8 pt-6 border-t border-zinc-800 text-center hidden">
+            <p id="message" class="text-lg font-bold mb-4"></p>
+            <button id="next-btn" class="w-full md:w-auto px-10 py-3 bg-white text-black font-black rounded-xl hover:bg-zinc-200 transition-transform active:scale-95 hidden">
+                NEXT QUESTION →
+            </button>
+        </div>
+
+        <div id="finish-screen" class="hidden text-center py-12">
+            <div class="text-6xl mb-4">🏆</div>
+            <h2 class="text-3xl font-black mb-2">Great Job!</h2>
+            <p id="final-stats" class="text-zinc-400 mb-8"></p>
+            <button id="back-to-chapters" class="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-zinc-200 mr-4">Back to Chapters</button>
+            <button onclick="location.reload()" class="px-8 py-3 bg-white text-black font-bold rounded-xl hover:bg-zinc-200">Restart Quiz</button>
+        </div>
+    </div>
+
+    <script>
+        // Organized by Chapters
+        const chapterQuestions = {
+            1: [
+                { q: "Which technology is identified as the primary driver behind the evolution of conversational AI in eCommerce?", opts: ["Blockchain", "Natural Language Processing (NLP)", "Edge Computing", "Static Rule-based Systems"], a: "Natural Language Processing (NLP)", type: "MCQ" },
+                { q: "According to the report, 'Real-Time Personalization' differs from traditional methods because it:", opts: ["Only uses demographic data like age and gender", "Relies solely on historical purchase data", "Adjusts content instantly based on a user's current behavior and actions", "Focuses exclusively on email marketing"], a: "Adjusts content instantly based on a user's current behavior and actions", type: "MCQ" },
+                { q: "What is the primary cause of cart abandonment cited in the research?", opts: ["High shipping fees and unexpected costs", "Too many product options", "Lack of social media integration", "Website color schemes"], a: "High shipping fees and unexpected costs", type: "MCQ" },
+                { q: "True or False: 'Neurosymbolic AI' combines neural networks with symbolic reasoning to improve deep-level deduction in chat services.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "Which region currently shows the highest levels of acceptance and demand for AI-driven personalization?", opts: ["North America", "Europe", "Asia-Pacific (particularly China)", "Latin America"], a: "Asia-Pacific (particularly China)", type: "MCQ" },
+                { q: "AI contributes to 'Last-Mile Delivery' sustainability by:", opts: ["Increasing the weight of packaging", "Clustering deliveries in close proximity to reduce vehicle trips", "Eliminating the need for human drivers entirely", "Focusing only on air freight"], a: "Clustering deliveries in close proximity to reduce vehicle trips", type: "MCQ" },
+                { q: "In the context of AI Ethics, the 'Black-Box' nature of algorithms refers to:", opts: ["The physical storage units for servers", "A lack of transparency in how the AI reaches its decisions", "The security measures used to protect user IDs", "The dark mode interface of eCommerce apps"], a: "A lack of transparency in how the AI reaches its decisions", type: "MCQ" },
+                { q: "Which AI application is specifically used to detect 'Identity Theft' and 'Account Takeovers'?", opts: ["AR Virtual Try-Ons", "Behavioral Biometrics", "Dynamic Pricing", "Sentiment Analysis"], a: "Behavioral Biometrics", type: "MCQ" },
+            ],
+            2: [
+                { q: "Which business model is characterized by the platform acting as a 'matchmaker' between buyers and sellers without owning the inventory?", opts: ["Direct Selling Model", "Inventory Model", "Marketplace Model", "Hybrid Model"], a: "Marketplace Model", type: "MCQ" },
+                { q: "In the ecommerce P&L statement, how is Net Merchandise Value (NMV) calculated?", opts: ["GMV + Advertising Revenue", "GMV - (Returns + Cancellations)", "Total Revenue - Discounts", "Gross Profit - Direct Costs"], a: "GMV - (Returns + Cancellations)", type: "MCQ" },
+                { q: "Which machine learning technique is specifically mentioned as being used to balance 'exploration' and 'exploitation' in online advertising?", opts: ["Logistic Regression", "K-Means Clustering", "Multi-armed bandit algorithms", "Support Vector Machines"], a: "Multi-armed bandit algorithms", type: "MCQ" },
+                { q: "According to industry reports, what percentage of revenue is typically spent on marketing and promotions by ecommerce platforms?", opts: ["2–5%", "7–10%", "10–15%", "20–30%"], a: "10–15%", type: "MCQ" },
+                { q: "What is the primary purpose of 'Smart Order Allocation' in logistics?", opts: ["To increase the number of products in a single order", "To find a fulfillment center with the lowest distance and processing time", "To predict which customers are likely to return items", "To automate the payment gateway charges"], a: "To find a fulfillment center with the lowest distance and processing time", type: "MCQ" },
+                { q: "In a direct selling model, the company owning the platform also owns the inventory and manages customer service.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "Contribution Margin 1 (CM1) is calculated by subtracting Performance Marketing costs from Gross Profit.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "Predictive maintenance using AI can help reduce technology costs by identifying potential server failures before they occur.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "Myntra operates on a pure inventory-led model where they own all the products sold on the app.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            3: [
+                { q: "What is the core technology that enables virtual assistants to interpret and generate human-like language?", opts: ["Computer Vision", "Natural Language Processing (NLP)", "Edge Computing", "Robotic Process Automation (RPA)"], a: "Natural Language Processing (NLP)", type: "MCQ" },
+                { q: "Which feature allows an AI to detect emotions such as frustration or satisfaction by analyzing speech patterns and text?", opts: ["Context Awareness", "Multilingual Support", "Emotion Detection", "Neurosymbolic AI"], a: "Emotion Detection", type: "MCQ" },
+                { q: "'Context Awareness' in conversational AI refers to the system's ability to:", opts: ["Translate messages into 95 different languages", "Identify the user's geographical location via GPS", "Maintain and understand the broader context of a dialogue over multiple interactions", "Recognize the hardware device being used by the customer"], a: "Maintain and understand the broader context of a dialogue over multiple interactions", type: "MCQ" },
+                { q: "True or False: Neurosymbolic AI combines neural network approaches with symbolic reasoning to enhance deep-level deduction.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "According to the report, what percentage of consumers would prefer using a chatbot over waiting for a human agent?", opts: ["18%", "50%", "82%", "64%"], a: "82%", type: "MCQ" },
+                { q: "Which demographic group is most likely to prioritize speed and convenience over human interaction in digital shopping?", opts: ["Baby Boomers", "Gen Z and Millennials", "Gen X", "The Silent Generation"], a: "Gen Z and Millennials", type: "MCQ" },
+                { q: "Which region has embraced AI assistants at the fastest rate due to a high familiarity with the technology?", opts: ["North America", "Europe", "Latin America", "Asia-Pacific (specifically China)"], a: "Asia-Pacific (specifically China)", type: "MCQ" },
+                { q: "Which success story highlights a retailer using context-aware AI to provide personalized assistance in multiple languages?", opts: ["Sephora", "H&M", "Amazon Alexa", "Walmart"], a: "H&M", type: "MCQ" },
+            ],
+            4: [
+                { q: "Which technology is specifically mentioned as playing a 'crucial role in facial recognition' for beauty platforms like Sephora?", opts: ["Recurrent Neural Networks (RNNs)", "Convolutional Neural Networks (CNNs)", "Linear Regression", "Support Vector Machines (SVMs)"], a: "Convolutional Neural Networks (CNNs)", type: "MCQ" },
+                { q: "In the context of the marketing funnel, what is the primary focus of the 'Top Funnel'?", opts: ["Converting visitors into confirmed orders", "Engaging visitors through personalized recommendations", "Attracting visitors and prospective buyers to the platform", "Optimizing the payment success rate"], a: "Attracting visitors and prospective buyers to the platform", type: "MCQ" },
+                { q: "What is the reported average 'add-to-cart rate' globally for ecommerce?", opts: ["1.5%", "4.0%", "7.6%", "15.2%"], a: "7.6%", type: "MCQ" },
+                { q: "Which metric is defined as the ratio of sales generated to the advertising budget spent?", opts: ["Customer Acquisition Cost (CAC)", "Cost Per Install (CPI)", "Return on Ad Spend (ROAS)", "Gross Merchandising Value (GMV)"], a: "Return on Ad Spend (ROAS)", type: "MCQ" },
+                { q: "How did the marketplace platform Meesho use AI to assist its sellers from smaller cities?", opts: ["By providing them with free logistics fleets", "Using deep learning to automatically tag product attributes and categories", "By eliminating all commission fees", "Through a manual review team for every listing"], a: "Using deep learning to automatically tag product attributes and categories", type: "MCQ" },
+                { q: "Product Discovery on an ecommerce platform is typically facilitated through two main paths: search and browse.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "Television advertisements are highly flexible and allow for deep personalization compared to digital campaigns.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "For an ecommerce website, a 'bounce rate' between 20% and 45% is generally considered a good benchmark.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "The 'Lower Funnel' focuses on attracting new users via app install campaigns.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "AI-powered address review services during checkout can help reduce failed deliveries and lost revenue.", opts: ["True", "False"], a: "True", type: "T/F" },
+            ],
+            5: [
+                { q: "What is the primary difference between traditional personalization and AI-driven real-time personalization?", opts: ["Traditional personalization uses real-time browsing habits", "AI-driven personalization relies on static demographics like age and gender", "AI-driven personalization focuses on behavioral shifts during a live session", "Traditional personalization is more effective for mobile users"], a: "AI-driven personalization focuses on behavioral shifts during a live session", type: "MCQ" },
+                { q: "Which innovation allows Rezolve Ai to simplify a user interface if it detects customer frustration?", opts: ["Multi-Dimensional Data Integration", "Contextual Personalization", "Emotion-Driven Personalization", "Predictive Inventory Management"], a: "Emotion-Driven Personalization", type: "MCQ" },
+                { q: "In which region do 90% of consumers prefer personalized recommendations, the highest recorded in the report?", opts: ["Europe", "North America", "Latin America", "China (Asia-Pacific)"], a: "China (Asia-Pacific)", type: "MCQ" },
+                { q: "What is the primary ethical concern regarding AI algorithms being trained on data from only affluent customers?", opts: ["Data Privacy", "Consumer Manipulation", "Bias and Fairness", "Real-time Adaptation"], a: "Bias and Fairness", type: "MCQ" },
+                { q: "'Predictive Personalization' refers to an AI's ability to:", opts: ["Remember what a customer bought last year", "Anticipate needs and recommend products before a user explicitly searches for them", "Show a user their browsing history on the home page", "Automatically apply a discount to every item in the cart"], a: "Anticipate needs and recommend products before a user explicitly searches for them", type: "MCQ" },
+            ],
+            6: [
+                { q: "According to the report, what is the primary definition of 'Ethical AI' in an eCommerce context?", opts: ["Developing AI that maximizes profit at all costs", "Ensuring AI systems operate in ways that are fair, transparent, and accountable", "Using AI only for logistics and never for customer interaction", "Replacing all human managers with AI algorithms"], a: "Ensuring AI systems operate in ways that are fair, transparent, and accountable", type: "MCQ" },
+                { q: "Which specific issue occurs when an AI system is trained on data that primarily reflects the preferences of high-income customers?", opts: ["Carbon footprint increase", "Biased product recommendations", "Improved supply chain transparency", "Accelerated AR/VR adoption"], a: "Biased product recommendations", type: "MCQ" },
+                { q: "In the context of AI ethics, what does 'Transparency in Decision-Making' aim to resolve?", opts: ["The high cost of hardware", "The 'black-box' nature of many AI algorithms", "Slow delivery times in last-mile logistics", "The need for more social media data"], a: "The 'black-box' nature of many AI algorithms", type: "MCQ" },
+                { q: "Which region has a robust regulatory framework (GDPR) that requires companies to disclose how AI is used in decision-making?", opts: ["Asia-Pacific", "Latin America", "Europe", "North America"], a: "Europe", type: "MCQ" },
+                { q: "What is the purpose of IBM's 'AI Fairness 360' toolkit?", opts: ["To track the carbon emissions of AI servers", "To help developers detect and mitigate bias in AI models", "To automate the process of guest checkout", "To manage employee payroll via AI"], a: "To help developers detect and mitigate bias in AI models", type: "MCQ" },
+                { q: "Dynamic Pricing Bias occurs when:", opts: ["Prices are too low for everyone", "Certain groups are offered higher prices based on browsing habits or location", "The AI fails to update the price during a sale", "The system only accepts one currency"], a: "Certain groups are offered higher prices based on browsing habits or location", type: "MCQ" },
+                { q: "Consumers in which region generally prioritize innovation and convenience over concerns about privacy?", opts: ["Europe", "North America", "China (Asia-Pacific)", "Africa"], a: "China (Asia-Pacific)", type: "MCQ" },
+                { q: "True or False: Ethical AI is purely a moral imperative and offers no strategic advantage to businesses.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "True or False: The California Consumer Privacy Act (CCPA) gives consumers more control over their personal data used by companies.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: Bias in AI is a one-time issue that can be fixed permanently during the initial training phase.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            7: [
+                { q: "What is the primary role of AR and VR in the eCommerce landscape?", opts: ["To reduce the need for high-speed internet in rural areas", "To offer interactive, three-dimensional environments that bridge the gap between physical and digital retail", "To automate the physical packaging of fragile goods", "To replace all human customer service agents with 3D avatars"], a: "To offer interactive, three-dimensional environments that bridge the gap between physical and digital retail", type: "MCQ" },
+                { q: "Which AR application allows customers to see how products like eyewear or makeup look on them using a smartphone?", opts: ["Predictive Maintenance", "Virtual Try-Ons", "Behavioral Biometrics", "3D Supply Chain Mapping"], a: "Virtual Try-Ons", type: "MCQ" },
+                { q: "In the United States, what percentage of Gen Z and Millennial shoppers expressed interest in using AR/VR for product visualization?", opts: ["58%", "63%", "71%", "84%"], a: "71%", type: "MCQ" },
+                { q: "Which region is currently leading the adoption of AR/VR, with 84% of consumers expressing interest?", opts: ["North America", "Europe", "Latin America", "Asia-Pacific (particularly China)"], a: "Asia-Pacific (particularly China)", type: "MCQ" },
+                { q: "What is identified as a significant 'Technological Barrier' to the adoption of Virtual Reality (VR)?", opts: ["Lack of interest from younger consumers", "Requirement for high-end hardware like VR headsets, which are relatively expensive", "Government regulations banning 3D advertisements", "Incompatibility with mobile payment gateways"], a: "Requirement for high-end hardware like VR headsets, which are relatively expensive", type: "MCQ" },
+                { q: "True or False: AR and VR applications can help reduce return rates by helping customers make more informed purchase decisions.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: 73% of European retailers plan to integrate AR/VR into their digital platforms within the next two years.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: AR and VR are currently perceived as a 'gimmick' by all age groups, hindering any practical use in eCommerce.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            8: [
+                { q: "Why has the global supply chain become more complex in the current eCommerce landscape?", opts: ["Decreased consumer expectations for delivery speed", "Geopolitical tensions, natural disasters, and the rise of omnichannel retail", "A move toward manual, traditional logistics models", "Reduced global trade activities"], a: "Geopolitical tensions, natural disasters, and the rise of omnichannel retail", type: "MCQ" },
+                { q: "Which AI-driven benefit allows businesses to anticipate shifts in consumer preferences and market trends?", opts: ["Route Optimization", "Predictive Maintenance", "Enhanced Demand Forecasting", "Fleet Management"], a: "Enhanced Demand Forecasting", type: "MCQ" },
+                { q: "How does AI improve 'Inventory Management' in eCommerce?", opts: ["By increasing the carrying costs to ensure a surplus", "By predicting optimal stock levels based on product lifecycles and real-time sales data", "By manually checking stock levels daily", "By focusing only on high-income regions"], a: "By predicting optimal stock levels based on product lifecycles and real-time sales data", type: "MCQ" },
+                { q: "According to the report, what is a top priority for 78% of industry executives?", opts: ["Moving all operations to a physical-only model", "Improving productivity and performance through AI in areas like supply chain management", "Reducing the use of IoT devices in warehouses", "Eliminating automated replenishment systems"], a: "Improving productivity and performance through AI in areas like supply chain management", type: "MCQ" },
+                { q: "Which 'Logistics Optimization' technique uses sensors on vehicles to prevent breakdowns?", opts: ["Route Optimization", "Dynamic Stock Replenishment", "Predictive Maintenance", "Last-Mile Delivery Efficiency"], a: "Predictive Maintenance", type: "MCQ" },
+                { q: "What is identified as a primary 'Operational Barrier' to implementing AI in the supply chain?", opts: ["A surplus of AI professionals in the job market", "High-quality, perfectly integrated data across all departments", "Incomplete, outdated, or siloed data", "Extremely low initial investment costs"], a: "Incomplete, outdated, or siloed data", type: "MCQ" },
+                { q: "True or False: AI-powered demand forecasting can incorporate variables like social media trends and weather patterns.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: 'Route Optimization' helps reduce a company's carbon footprint by lowering fuel consumption.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: Small businesses face fewer barriers to AI implementation because they do not have legacy systems.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            9: [
+                { q: "Why are traditional rule-based fraud detection systems becoming less effective in eCommerce?", opts: ["They are too expensive to maintain compared to AI", "Rule-based systems rely on predefined patterns, which cannot combat sophisticated and evolving tactics used by cybercriminals", "They require constant human oversight to process every transaction", "They only work for physical, in-store transactions"], a: "Rule-based systems rely on predefined patterns, which cannot combat sophisticated and evolving tactics used by cybercriminals", type: "MCQ" },
+                { q: "Which form of fraud involves using stolen credentials to gain unauthorized access to a customer's account for making purchases?", opts: ["Friendly Fraud", "Synthetic Identity Fraud", "Account Takeover (ATO)", "Deepfake Fraud"], a: "Account Takeover (ATO)", type: "MCQ" },
+                { q: "What is the primary advantage of 'Behavioral Biometrics' in cybersecurity?", opts: ["It replaces the need for high-speed internet", "It provides a frictionless security layer by monitoring habits like typing speed and mouse movements", "It identifies the physical location of a customer's device", "It analyzes the text of a customer's review for sentiment"], a: "It provides a frictionless security layer by monitoring habits like typing speed and mouse movements", type: "MCQ" },
+                { q: "How does Natural Language Processing (NLP) assist in cybersecurity?", opts: ["By assigning a risk score to payment transactions", "By analyzing user behavior such as browsing habits", "By detecting signs of phishing in emails, websites, and messages", "By optimizing delivery routes for logistics"], a: "By detecting signs of phishing in emails, websites, and messages", type: "MCQ" },
+                { q: "Which 'AI vs. AI' threat involves creating fake identities by combining real and fictitious information?", opts: ["Deepfake Fraud", "Synthetic Identity Fraud", "Phishing Attacks", "Payment Fraud"], a: "Synthetic Identity Fraud", type: "MCQ" },
+                { q: "According to the report, what is the role of human experts in an AI-powered fraud detection system?", opts: ["To manually monitor every transaction in real-time", "To review flagged activities, investigate cases, and make final decisions on suspicious transactions", "To write the initial rules for the static security system", "To manage the physical security of the warehouse"], a: "To review flagged activities, investigate cases, and make final decisions on suspicious transactions", type: "MCQ" },
+                { q: "True or False: 'Friendly Fraud' refers to a legitimate customer disputing a transaction after receiving the product.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: 65% of consumers surveyed stated they would feel more secure if AI-powered systems were in place to prevent fraud.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: AI-powered risk scoring systems are static and cannot be customized by businesses.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            10: [
+                { q: "What is one of the most significant ways AI contributes to sustainability in eCommerce logistics?", opts: ["By increasing the frequency of empty vehicle trips", "By finding the most efficient transportation routes to reduce distance and emissions", "By focusing exclusively on air transport for all deliveries", "By eliminating the need for any packaging materials"], a: "By finding the most efficient transportation routes to reduce distance and emissions", type: "MCQ" },
+                { q: "How do 'Smart Packaging Solutions' driven by AI reduce waste?", opts: ["By recommending non-recyclable materials for durability", "By increasing the amount of over-packaging to protect goods", "By determining the exact amount of packaging needed, eliminating excess material use", "By preventing customers from returning any items"], a: "By determining the exact amount of packaging needed, eliminating excess material use", type: "MCQ" },
+                { q: "According to the report, what percentage of global consumers are more likely to purchase from environmentally friendly companies?", opts: ["66%", "78%", "86%", "61%"], a: "78%", type: "MCQ" },
+                { q: "What role does AI play in 'Enhanced Supply Chain Transparency'?", opts: ["It hides supplier data to protect competitive advantages", "It provides end-to-end visibility to track supplier sustainability and sourcing", "It only tracks the financial profitability of suppliers", "It automates the deletion of energy consumption records"], a: "It provides end-to-end visibility to track supplier sustainability and sourcing", type: "MCQ" },
+                { q: "Which demographic is specifically noted for being more inclined to prioritize sustainability in their purchasing decisions?", opts: ["The Silent Generation", "Baby Boomers", "Millennials and Gen Z", "Only high-income earners over age 60"], a: "Millennials and Gen Z", type: "MCQ" },
+                { q: "Which company is cited for using AI-powered route optimization to achieve net-zero carbon emissions by 2040?", opts: ["Unilever", "Walmart", "Amazon", "IKEA"], a: "Amazon", type: "MCQ" },
+                { q: "True or False: AI can promote eco-friendly shopping by highlighting products with lower carbon footprints in recommendation engines.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: 72% of European consumers are willing to spend more for sustainable products.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: Last-mile delivery is generally the most efficient part of the logistics chain and does not require AI optimization.", opts: ["True", "False"], a: "False", type: "T/F" },
+            ],
+            11: [
+                { q: "What is the fundamental shift in the role of AI within eCommerce as described in the report?", opts: ["AI is transitioning from a collaborative tool to a total replacement for human labor", "AI is being viewed as a tool to augment human roles rather than replace them", "Human workers are being phased out in favor of 24/7 robotic systems", "AI is losing its relevance in favor of traditional, manual customer service"], a: "AI is being viewed as a tool to augment human roles rather than replace them", type: "MCQ" },
+                { q: "In the 'Hybrid Support Model' for customer service, what is the primary role of the human agent?", opts: ["Handling high volumes of frequently asked questions", "Escorting AI bots through the website architecture", "Managing complex inquiries, sensitive situations, and providing an empathetic touch", "Processing all basic orders manually to ensure accuracy"], a: "Managing complex inquiries, sensitive situations, and providing an empathetic touch", type: "MCQ" },
+                { q: "How does AI specifically assist human marketers in refining their strategies?", opts: ["AI writes all creative copy without human intervention", "AI identifies the optimal timing for campaigns and generates insights to help humans design emotional narratives", "AI replaces the need for any human creativity in advertising", "AI manages the physical printing of marketing brochures"], a: "AI identifies the optimal timing for campaigns and generates insights to help humans design emotional narratives", type: "MCQ" },
+                { q: "What percentage of companies that have implemented AI report a significant improvement in productivity?", opts: ["50%", "82%", "72%", "18%"], a: "72%", type: "MCQ" },
+                { q: "In supply chain management, what is a task that still requires significant human oversight despite AI's predictive capabilities?", opts: ["Real-time demand forecasting", "Route optimization for delivery fleets", "Managing exceptions, making strategic decisions, and adjusting supplier relationships", "Automated inventory tracking via sensors"], a: "Managing exceptions, making strategic decisions, and adjusting supplier relationships", type: "MCQ" },
+                { q: "What is identified as a critical ethical consideration in Human-AI collaboration regarding workforce management?", opts: ["Reducing employee wages due to AI efficiency", "Investing in retraining and upskilling employees to handle new roles in an AI-driven environment", "Ensuring AI bots are treated with the same legal rights as humans", "Hiding AI decision-making processes from employees to prevent confusion"], a: "Investing in retraining and upskilling employees to handle new roles in an AI-driven environment", type: "MCQ" },
+                { q: "True or False: Many employers view AI as a way to enrich jobs by allowing workers to focus on more meaningful and strategic tasks.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: 'Explainability' is unnecessary for employees as long as the AI provides the correct data-driven insights.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "True or False: AI-driven chatbots enable eCommerce platforms to offer 24/7 support while escalating complex issues to humans.", opts: ["True", "False"], a: "True", type: "T/F" },
+            ],
+            12: [
+                { q: "What is the primary function of 'Predictive Analytics' in customer behavior?", opts: ["To record past transactions for tax purposes", "To use AI algorithms to forecast future customer behavior based on historical data", "To manually segment customers by their physical location", "To delete old customer data to save server space"], a: "To use AI algorithms to forecast future customer behavior based on historical data", type: "MCQ" },
+                { q: "Which AI model is used to identify customers who are at risk of discontinuing their relationship with a brand?", opts: ["Purchase Propensity Model", "Dynamic Personalization Model", "Churn Prediction Model", "Sentiment Analysis Model"], a: "Churn Prediction Model", type: "MCQ" },
+                { q: "'Sentiment Analysis' primarily uses which technology to understand how customers feel about a brand?", opts: ["Computer Vision", "Natural Language Processing (NLP)", "Robotic Process Automation (RPA)", "Blockchain"], a: "Natural Language Processing (NLP)", type: "MCQ" },
+                { q: "How does AI-driven 'Real-Time Analytics' impact cart abandonment?", opts: ["It prevents customers from adding items to a cart", "It triggers immediate interventions, such as a discount or chatbot support, when abandonment is detected", "It waits 24 hours before sending a generic follow-up email", "It automatically charges the customer's card for abandoned items"], a: "It triggers immediate interventions, such as a discount or chatbot support, when abandonment is detected", type: "MCQ" },
+                { q: "'Automated A/B Testing' allows businesses to:", opts: ["Manually design every version of a webpage", "Use AI to analyze customer behavior in real-time to determine which marketing version performs better", "Eliminate all marketing campaigns", "Track the physical movement of customers in a store"], a: "Use AI to analyze customer behavior in real-time to determine which marketing version performs better", type: "MCQ" },
+                { q: "Which integration provides a 'holistic understanding' of customer behavior across different platforms?", opts: ["Single-channel analytics", "Cross-Channel Analytics", "Manual data entry from paper receipts", "Ignoring social media data"], a: "Cross-Channel Analytics", type: "MCQ" },
+                { q: "True or False: Behavioral Segmentation groups customers based on shared actions like browsing patterns and purchase frequency.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: Netflix's use of AI to predict viewing behavior is irrelevant to the world of eCommerce.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "True or False: Future AI models in analytics may analyze subtle factors like a customer's attention span or mood.", opts: ["True", "False"], a: "True", type: "T/F" },
+            ],
+            13: [
+                { q: "What does the 'Internet of Things' (IoT) refer to in the context of eCommerce?", opts: ["A platform specifically for hosting web-based search engines", "A network of interconnected devices that share data over the internet to enhance customer and logistics experiences", "A strategy to replace all digital shopping with physical in-store visits", "A method for manually tracking inventory using paper logs"], a: "A network of interconnected devices that share data over the internet to enhance customer and logistics experiences", type: "MCQ" },
+                { q: "Which device is specifically noted for allowing consumers to perform hands-free, voice-activated shopping?", opts: ["Smart washing machines", "Wearable fitness trackers", "Smart home assistants like Amazon Alexa or Google Home", "GPS-enabled delivery trucks"], a: "Smart home assistants like Amazon Alexa or Google Home", type: "MCQ" },
+                { q: "How does AIoT integration facilitate 'Predictive Reordering'?", opts: ["By asking the customer to fill out a weekly survey on their needs", "By analyzing data from connected appliances to predict when supplies like detergent or groceries will run low", "By automatically charging a customer's card for items they viewed but didn't buy", "By sending a human representative to the customer's home to check inventory"], a: "By analyzing data from connected appliances to predict when supplies like detergent or groceries will run low", type: "MCQ" },
+                { q: "What is a primary benefit of using IoT sensors for 'Condition Monitoring' in the supply chain?", opts: ["It tracks the total social media mentions of a product", "It ensures perishable goods are stored and transported under optimal temperature and light conditions", "It identifies the cheapest supplier for raw materials", "It reduces the need for high-speed internet in warehouses"], a: "It ensures perishable goods are stored and transported under optimal temperature and light conditions", type: "MCQ" },
+                { q: "According to the report, what is the most significant barrier to the widespread adoption of AI-IoT integration among consumers?", opts: ["A lack of interest in convenience", "Concerns about data privacy and the security of personal information", "The unavailability of smart home devices in North America", "High costs of high-speed internet in all major global markets"], a: "Concerns about data privacy and the security of personal information", type: "MCQ" },
+                { q: "Which emerging technology is cited as critical for enabling real-time AI-IoT interactions by reducing latency?", opts: ["3G cellular networks", "Blockchain ledgers", "5G and Edge Computing", "Static cloud storage"], a: "5G and Edge Computing", type: "MCQ" },
+                { q: "True or False: Wearable technology can be used to deliver personalized offers based on a user's real-time activity, such as finishing a workout.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: Experts predict that full AI and IoT integration in eCommerce will be mainstream within the next 12 months.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "True or False: Proactive issue resolution involves using IoT data to detect a malfunctioning appliance and scheduling a repair before the customer notices.", opts: ["True", "False"], a: "True", type: "T/F" },
+            ],
+            14: [
+                { q: "According to the report, what is the average percentage of online shopping carts that are abandoned before a purchase is completed?", opts: ["30%", "50%", "Nearly 70%", "90%"], a: "Nearly 70%", type: "MCQ" },
+                { q: "Which factor is identified as one of the most common causes of cart abandonment at the final checkout stage?", opts: ["Too many product images", "High shipping fees and unexpected costs", "Frequent social media notifications", "Availability of too many payment methods"], a: "High shipping fees and unexpected costs", type: "MCQ" },
+                { q: "How does AI utilize 'Behavioral Analysis' to prevent abandonment before it occurs?", opts: ["By automatically charging the customer's saved credit card", "By identifying patterns of hesitation, such as mouse movements or long pauses, to trigger preemptive interventions", "By blocking the user from leaving the website", "By deleting the items in the cart to clear server space"], a: "By identifying patterns of hesitation, such as mouse movements or long pauses, to trigger preemptive interventions", type: "MCQ" },
+                { q: "What is a key feature of Rezolve AI's 'Brain Commerce' approach to reducing abandonment?", opts: ["It uses a traditional static search bar", "It replaces site search with dynamic, conversational engagement in 95 languages", "It forces users to create an account before browsing", "It only supports English-speaking markets"], a: "It replaces site search with dynamic, conversational engagement in 95 languages", type: "MCQ" },
+                { q: "Which AI-driven strategy is used to recover sales after a customer has already left the website?", opts: ["Smart Autofill features", "Personalized email sequences and dynamic retargeting ads", "One-click checkout optimization", "Real-time chatbot support pop-ups"], a: "Personalized email sequences and dynamic retargeting ads", type: "MCQ" },
+                { q: "How does 'Dynamic Pricing' help reduce abandonment for price-sensitive customers?", opts: ["By increasing prices during high-traffic hours", "By offering personalized, real-time discounts or incentives like free shipping to encourage conversion", "By hiding the final price until the transaction is complete", "By offering the same discount to every single visitor"], a: "By offering personalized, real-time discounts or incentives like free shipping to encourage conversion", type: "MCQ" },
+                { q: "True or False: Requiring a customer to create an account is considered a 'friction point' that can lead to cart abandonment.", opts: ["True", "False"], a: "True", type: "T/F" },
+                { q: "True or False: AI-powered 'Smart Autofill' features are intended to slow down the checkout process for security reasons.", opts: ["True", "False"], a: "False", type: "T/F" },
+                { q: "True or False: Rezolve AI's 'Brain Assistant' provides 24/7 support and can escalate complex queries to human agents.", opts: ["True", "False"], a: "True", type: "T/F" },
+            ],
+        };
+
+        let currentChapter = null;
+        let currentIdx = 0;
+        let score = 0;
+        let correctFound = false;
+
+        // UI Elements
+        const chapterSelector = document.getElementById('chapter-selector');
+        const chaptersGrid = document.getElementById('chapters-grid');
+        const quizContainer = document.getElementById('quiz-container');
+        const qText = document.getElementById('question-text');
+        const optionsGrid = document.getElementById('options-grid');
+        const progressText = document.getElementById('progress');
+        const scoreText = document.getElementById('score-count');
+        const qType = document.getElementById('question-type');
+        const actionArea = document.getElementById('action-area');
+        const message = document.getElementById('message');
+        const nextBtn = document.getElementById('next-btn');
+        const backBtn = document.getElementById('back-to-chapters');
+        const finishScreen = document.getElementById('finish-screen');
+
+        // Initialize chapter selector
+        function initChapterSelector() {
+            chaptersGrid.innerHTML = '';
+            for (let i = 1; i <= 14; i++) {
+                const btn = document.createElement('button');
+                btn.className = "p-4 bg-zinc-800 hover:bg-blue-600 border border-zinc-700 rounded-xl font-bold text-lg transition-all active:scale-95";
+                btn.innerText = `Chapter ${i}`;
+                btn.onclick = () => startChapter(i);
+                chaptersGrid.appendChild(btn);
+            }
+        }
+
+        function startChapter(chapterNum) {
+            const questions = chapterQuestions[chapterNum];
+            if (!questions || questions.length === 0) {
+                alert(`اسف، لم يتم إضافة أسئلة الفصل ${chapterNum} بعد!`);
+                return;
+            }
+
+            currentChapter = chapterNum;
+            currentIdx = 0;
+            score = 0;
+            correctFound = false;
+
+            chapterSelector.classList.add('hidden');
+            quizContainer.classList.remove('hidden');
+            finishScreen.classList.add('hidden');
+            initQuiz();
+        }
+
+        function initQuiz() {
+            correctFound = false;
+            actionArea.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            
+            const quizData = chapterQuestions[currentChapter];
+            const current = quizData[currentIdx];
+            
+            progressText.innerText = `Question ${currentIdx + 1} / ${quizData.length}`;
+            scoreText.innerText = `Score: ${score}`;
+            qType.innerText = current.type;
+            qText.innerText = current.q;
+            
+            optionsGrid.innerHTML = '';
+            current.opts.forEach(opt => {
+                const b = document.createElement('button');
+                b.innerText = opt;
+                b.className = "option-btn w-full text-left p-4 rounded-xl border border-zinc-800 bg-zinc-800/40 hover:border-zinc-600 text-zinc-300 font-medium";
+                b.onclick = () => handleSelection(opt, b);
+                optionsGrid.appendChild(b);
+            });
+        }
+
+        function handleSelection(selected, btn) {
+            if (correctFound) return;
+
+            const quizData = chapterQuestions[currentChapter];
+            const correctAns = quizData[currentIdx].a;
+            
+            if (selected === correctAns) {
+                correctFound = true;
+                score++;
+                btn.classList.add('correct-choice');
+                message.innerText = "Correct! Well done.";
+                message.className = "text-lg font-bold mb-4 text-green-500";
+                actionArea.classList.remove('hidden');
+                nextBtn.classList.remove('hidden');
+                
+                Array.from(optionsGrid.children).forEach(child => {
+                    if (child !== btn) child.style.opacity = "0.3";
+                });
+            } else {
+                btn.classList.add('wrong-choice');
+                message.innerText = "Wrong answer, try again...";
+                message.className = "text-lg font-bold mb-4 text-red-500";
+                actionArea.classList.remove('hidden');
+                nextBtn.classList.add('hidden');
+            }
+        }
+
+        nextBtn.onclick = () => {
+            const quizData = chapterQuestions[currentChapter];
+            currentIdx++;
+            if (currentIdx < quizData.length) {
+                initQuiz();
+            } else {
+                showFinal();
+            }
+        };
+
+        backBtn.onclick = () => {
+            chapterSelector.classList.remove('hidden');
+            quizContainer.classList.add('hidden');
+            finishScreen.classList.add('hidden');
+            initChapterSelector();
+        };
+
+        document.getElementById('back-to-chapters-quiz').onclick = () => {
+            chapterSelector.classList.remove('hidden');
+            quizContainer.classList.add('hidden');
+            finishScreen.classList.add('hidden');
+            initChapterSelector();
+        };
+
+        function showFinal() {
+            const quizData = chapterQuestions[currentChapter];
+            quizContainer.classList.add('hidden');
+            finishScreen.classList.remove('hidden');
+            document.getElementById('final-stats').innerText = `You completed all ${quizData.length} questions from Chapter ${currentChapter} with a score of ${score}!`;
+        }
+
+        // Start with chapter selector
+        initChapterSelector();
+    </script>
+</body>
+</html>
